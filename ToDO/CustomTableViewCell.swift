@@ -12,7 +12,8 @@ import UIKit
 class CustomTableViewCell: UITableViewCell {
     
     let titleLabel = UILabel()
-    let datailsLabel = UILabel()
+    let datailsLabel = UIImageView()
+    let createdDateLabel = UILabel()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -24,13 +25,17 @@ class CustomTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configCell(title: String?, details: String?) {
+    func configCell(title: String?, details: String?, created: String?) {
         if let title = title {
            self.titleLabel.text = title
         }
         
-        if let detailsLabel = details {
-            self.datailsLabel.text = detailsLabel
+        if let created = created {
+            self.createdDateLabel.text = "Created on: \(created) "
+        }
+        
+        if details != nil {
+            self.datailsLabel.image = UIImage(named: details!)
         }
     }
 }
@@ -41,32 +46,36 @@ extension CustomTableViewCell {
         titleLabel.numberOfLines = 0
         titleLabel.lineBreakMode = .byWordWrapping
         
-        datailsLabel.textAlignment = .right
         contentView.addSubview(titleLabel)
         contentView.addSubview(datailsLabel)
-        self.accessoryType = .none
-        datailsLabel.font = UIFont.systemFont(ofSize: 12, weight: UIFontWeightLight)
-        datailsLabel.textColor = UIColor.gray
-        
+        contentView.addSubview(createdDateLabel)
+      
+        createdDateLabel.textColor = UIColor.darkGray
+        createdDateLabel.font = UIFont(name: "Optima-Regular", size: 12)
         titleLabel.font = UIFont(
             name: "Bold",
-            size: 12.0)
+            size: 12.0
+        )
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         datailsLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        accessoryType = UITableViewCellAccessoryType.disclosureIndicator
-        
-        let constraints : [NSLayoutConstraint] = [
+        createdDateLabel.translatesAutoresizingMaskIntoConstraints = false
+      
+        NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -32),
-            titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 30),
             
-            datailsLabel.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            createdDateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            createdDateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            createdDateLabel.heightAnchor.constraint(equalToConstant: 16),
+            createdDateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            
+            datailsLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             datailsLabel.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: -8),
-        ]
-        NSLayoutConstraint.activate(constraints)
+            datailsLabel.widthAnchor.constraint(equalToConstant: 25),
+            datailsLabel.heightAnchor.constraint(equalToConstant: 25)
+        ])
     }
 }
-
-

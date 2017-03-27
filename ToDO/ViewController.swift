@@ -15,17 +15,20 @@ class ViewController: UIViewController {
     var textField = UITextField()
     var button = UIButton()
     var headerView = UIView()
-    
-    let realm = try! Realm()
     var toDoList: Results<ToDoItem> {
         get {
             return realm.objects(ToDoItem.self)
         }
     }
     
+    let realm = try! Realm()
+    let date = Date()
+    let dateFormatter = DateFormatter()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
+        dateFormatter.dateFormat = "dd/MM/YY, HH:mm"
         
         setupTableView()
         setupButton()
@@ -46,6 +49,8 @@ extension ViewController {
     func setupTableView() {
         self.view.addSubview(self.tableView)
         self.view.addSubview(button)
+        self.tableView.estimatedRowHeight = 44
+        self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "myCell")
@@ -59,7 +64,6 @@ extension ViewController {
     }
     
     func setupButton() {
-        
         self.button.setTitle("New Task", for: .normal)
         self.button.tintColor = .white
         self.button.backgroundColor = UIColor.gray
@@ -75,31 +79,45 @@ extension ViewController {
     
     func newClicked() {
         
-        let alertController = UIAlertController(title: "New ToDo", message: "What do you plan to do?", preferredStyle: .alert)
+        let alertController = UIAlertController(
+            title: "New ToDo",
+            message: "What do you plan to do?",
+            preferredStyle: .alert
+        )
+        alertController.addTextField {
+            $0.placeholder = "Enter text"
+            $0.addTarget(self, action: #selector(self.textFieldTextDidChange(_:)), for: .editingChanged)
+        }
         
-        alertController.addTextField { (UITextField) in }
-        
+        let message = (alertController.textFields?.first)! as UITextField
         let actionCancel = UIAlertAction(title: "Cancel", style: .cancel) { (UIAlertAction) -> Void in }
         alertController.addAction(actionCancel)
         
         let actionAdd = UIAlertAction(title: "Add", style: .default) { (UIAlertAction) -> Void in
         
-            let textField_todo = (alertController.textFields?.first)! as UITextField
-            print("You entered \(textField_todo.text)")
             let toDoItem = ToDoItem()
-            toDoItem.detail = textField_todo.text!
-            toDoItem.status = "To Do"
+            toDoItem.detail = message.text!
+            toDoItem.status = "remaining"
+            toDoItem.currentDate = self.dateFormatter.string(from: self.date)
             
             try! self.realm.write({
                 self.realm.add(toDoItem)
                 self.tableView.insertRows(at: [IndexPath.init(row: self.toDoList.count-1, section: 0)], with: .automatic)
             })
         }
+        actionAdd.isEnabled = false
         alertController.addAction(actionAdd)
         present(alertController, animated: true, completion: nil)
     }
+    
+    func textFieldTextDidChange(_ textField: UITextField) {
+        if let alert = presentedViewController as? UIAlertController,
+            let action = alert.actions.last,
+            let text = textField.text {
+            action.isEnabled = text.characters.count > 0
+        }
+    }
 }
-
 
 extension ViewController: UITableViewDataSource {
    
@@ -109,35 +127,18 @@ extension ViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath) as! CustomTableViewCell
-        
         let item = toDoList[indexPath.row]
         cell.accessoryType = .none
-        cell.configCell(title: item.detail, details: item.status)
+        
+        cell.configCell(title: item.detail, details: item.status, created: item.currentDate )
         return cell
     }
     
-}
-
-extension ViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = toDoList[indexPath.row]
-        try! self.realm.write({
-            if (item.status == "To Do"){
-                item.status = "Done"
-            }else{
-                item.status = "To Do"
-            }
-        })
-        tableView.reloadRows(at: [indexPath], with: .automatic)
-    }
-    
-    @objc(tableView:canFocusRowAtIndexPath:) func tableView(_ tableView: UITableView, canFocusRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
-    @objc(tableView:commitEditingStyle:forRowAtIndexPath:) func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        
+    func tableView(
+        _ tableView: UITableView,
+        commit editingStyle: UITableViewCellEditingStyle,
+        forRowAt indexPath: IndexPath
+        ) {
         if (editingStyle == .delete){
             let item = toDoList[indexPath.row]
             try! self.realm.write({
@@ -146,5 +147,20 @@ extension ViewController: UITableViewDelegate {
             
             tableView.deleteRows(at:[indexPath], with: .automatic)
         }
+    }
+}
+
+extension ViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = toDoList[indexPath.row]
+        try! self.realm.write({
+            if (item.status == "remaining") {
+                item.status = "done"
+            }else{
+                item.status = "remaining"
+            }
+        })
+        tableView.reloadRows(at: [indexPath], with: .automatic)
     }
 }

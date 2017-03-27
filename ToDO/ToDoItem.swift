@@ -9,7 +9,8 @@
 import Foundation
 import RealmSwift
 
-class ToDoItem: Object { // [2]
-    dynamic var detail =  "" // [3]
-    dynamic var status = "To Do"
+class ToDoItem: Object {
+    dynamic var detail =  ""
+    dynamic var status = "remaining"
+    dynamic var currentDate = ""
 }

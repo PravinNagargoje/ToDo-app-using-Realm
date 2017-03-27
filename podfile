@@ -4,7 +4,7 @@ platform :ios, '9.0'
 
 def application_pods
         pod 'RealmSwift', '~> 2.0.2'
-        pod 'lottie-ios' 
+       
 end
 
 target ‘ToDO’ do
