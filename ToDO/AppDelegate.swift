@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let mainView = ViewController()
         let nav = UINavigationController(rootViewController: mainView)
         nav.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
-        UINavigationBar.appearance().barTintColor = UIColor.brown
+        UINavigationBar.appearance().barTintColor = UIColor.colorWith(hexString: "#13a3e1")
         UINavigationBar.appearance().tintColor = UIColor.white
         
         self.window!.rootViewController = nav

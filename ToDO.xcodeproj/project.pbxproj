@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		048BA1E81E8951A70026E764 /* ColorHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048BA1E71E8951A70026E764 /* ColorHelper.swift */; };
 		04B270161E4B50510073DBC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B270151E4B50510073DBC3 /* AppDelegate.swift */; };
 		04B270181E4B50510073DBC3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B270171E4B50510073DBC3 /* ViewController.swift */; };
 		04B2701B1E4B50510073DBC3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04B270191E4B50510073DBC3 /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		011E513F2069BAF9983F57A2 /* Pods-ToDO.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDO.release.xcconfig"; path = "Pods/Target Support Files/Pods-ToDO/Pods-ToDO.release.xcconfig"; sourceTree = "<group>"; };
+		048BA1E71E8951A70026E764 /* ColorHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorHelper.swift; sourceTree = "<group>"; };
 		04B270121E4B50510073DBC3 /* ToDO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04B270151E4B50510073DBC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04B270171E4B50510073DBC3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 				04B2701E1E4B50510073DBC3 /* LaunchScreen.storyboard */,
 				04B270211E4B50510073DBC3 /* Info.plist */,
 				04C523A51E4C48F50059B4E0 /* CustomTableViewCell.swift */,
+				048BA1E71E8951A70026E764 /* ColorHelper.swift */,
 			);
 			path = ToDO;
 			sourceTree = "<group>";
@@ -218,6 +221,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04B270181E4B50510073DBC3 /* ViewController.swift in Sources */,
+				048BA1E81E8951A70026E764 /* ColorHelper.swift in Sources */,
 				04B270161E4B50510073DBC3 /* AppDelegate.swift in Sources */,
 				04C523A61E4C48F50059B4E0 /* CustomTableViewCell.swift in Sources */,
 				04B270281E4B5F640073DBC3 /* ToDoItem.swift in Sources */,
