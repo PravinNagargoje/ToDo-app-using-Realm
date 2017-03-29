@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     var alertController = UIAlertController()
     var toDoList: Results<ToDoItem> {
         get {
-            return realm!.objects(ToDoItem.self)
+            return realm!.objects(ToDoItem.self).sorted(byProperty: "currentDate", ascending: false)
         }
     }
     
@@ -31,6 +31,7 @@ class ViewController: UIViewController {
         dateFormatter.dateFormat = "dd/MM/YY, h:mm a"
         setupTableView()
         setupButton()
+        setupDelete()
     }
 
     override func  viewWillAppear(_ animated: Bool) {
@@ -62,6 +63,21 @@ extension ViewController {
             self.tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -8),
             self.tableView.bottomAnchor.constraint(equalTo: self.button.topAnchor)
         ])
+    }
+    
+    func setupDelete() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .trash,
+            target: self,
+            action: #selector(deleteTapped)
+        )
+    }
+    
+    func deleteTapped() {
+        try! self.realm?.write {
+            self.realm?.deleteAll()
+            self.tableView.reloadData()
+        }
     }
     
     func setupButton() {
@@ -106,6 +122,7 @@ extension ViewController {
                 self.realm?.add(toDoItem)
                 self.tableView.insertRows(at: [IndexPath.init(row: self.toDoList.count-1, section: 0)], with: .automatic)
             })
+            self.tableView.reloadData()
         }
         actionAdd.isEnabled = false
         alertController.addAction(actionAdd)
@@ -153,6 +170,7 @@ extension ViewController: UITableViewDataSource {
             let item = toDoList[indexPath.row]
             try! self.realm?.write {
                 self.realm?.delete(item)
+                self.tableView.deleteRows(at: [indexPath], with: .fade)
                 self.tableView.reloadData()
             }
         }
@@ -170,6 +188,6 @@ extension ViewController: UITableViewDelegate {
                 item.status = "remaining"
             }
         })
-        self.tableView.reloadRows(at: [indexPath], with: .automatic)
+        self.tableView.reloadRows(at: [indexPath], with: .fade)
     }
 }
