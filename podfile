@@ -3,12 +3,20 @@ use_frameworks!
 platform :ios, '9.0'
 
 def application_pods
-        pod 'RealmSwift', '~> 2.0.2'
-       
+     pod 'RealmSwift', '~> 2.8.1'
+     pod 'Google-Mobile-Ads-SDK'
+     pod 'Firebase/Core'   
 end
 
 target ‘ToDO’ do
         application_pods
 end
 
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['SWIFT_VERSION'] = '3.0'
+    end
+  end
+end
 

@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import GoogleMobileAds
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,6 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        FirebaseApp.configure()
+        GADMobileAds.configure(withApplicationID: "ca-app-pub-2485725965681105~8482489870")
+       
         let mainView = ViewController()
         let nav = UINavigationController(rootViewController: mainView)
         nav.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]

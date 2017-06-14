@@ -15,6 +15,7 @@
 		04B270201E4B50510073DBC3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04B2701E1E4B50510073DBC3 /* LaunchScreen.storyboard */; };
 		04B270281E4B5F640073DBC3 /* ToDoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B270271E4B5F640073DBC3 /* ToDoItem.swift */; };
 		04C523A61E4C48F50059B4E0 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C523A51E4C48F50059B4E0 /* CustomTableViewCell.swift */; };
+		1BC01B391EF0FE2A00262D56 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1BC01B381EF0FE2A00262D56 /* GoogleService-Info.plist */; };
 		5BA20CF4B7E3352BD0EDA0B5 /* Pods_ToDO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12937358741C7D9C49289E3C /* Pods_ToDO.framework */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +32,7 @@
 		04B270271E4B5F640073DBC3 /* ToDoItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToDoItem.swift; sourceTree = "<group>"; };
 		04C523A51E4C48F50059B4E0 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		12937358741C7D9C49289E3C /* Pods_ToDO.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ToDO.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1BC01B381EF0FE2A00262D56 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		775BDF346E94B75437AFC01E /* Pods-ToDO.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDO.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ToDO/Pods-ToDO.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -70,6 +72,7 @@
 				04B270151E4B50510073DBC3 /* AppDelegate.swift */,
 				04B270171E4B50510073DBC3 /* ViewController.swift */,
 				04B270271E4B5F640073DBC3 /* ToDoItem.swift */,
+				1BC01B381EF0FE2A00262D56 /* GoogleService-Info.plist */,
 				04B270191E4B50510073DBC3 /* Main.storyboard */,
 				04B2701C1E4B50510073DBC3 /* Assets.xcassets */,
 				04B2701E1E4B50510073DBC3 /* LaunchScreen.storyboard */,
@@ -127,7 +130,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = Mac;
 				TargetAttributes = {
 					04B270111E4B50510073DBC3 = {
@@ -159,6 +162,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BC01B391EF0FE2A00262D56 /* GoogleService-Info.plist in Resources */,
 				04B270201E4B50510073DBC3 /* LaunchScreen.storyboard in Resources */,
 				04B2701D1E4B50510073DBC3 /* Assets.xcassets in Resources */,
 				04B2701B1E4B50510073DBC3 /* Main.storyboard in Resources */,
@@ -195,7 +199,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		ECECEDB838C9D31171125D2B /* [CP] Embed Pods Frameworks */ = {
@@ -268,6 +272,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -318,6 +323,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -347,6 +353,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 775BDF346E94B75437AFC01E /* Pods-ToDO.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = ToDO/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -360,6 +367,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 011E513F2069BAF9983F57A2 /* Pods-ToDO.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = ToDO/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

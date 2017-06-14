@@ -6,8 +6,14 @@
 //  Copyright © 2017 Mac. All rights reserved.
 //
 
+let AppId = "ca-app-pub-2485725965681105~8482489870"
+let BanerAdUnitId = "ca-app-pub-2485725965681105/3912689477"
+let InterstitalAdId = "ca-app-pub-2485725965681105/7226082678"
+
+
 import UIKit
 import RealmSwift
+import GoogleMobileAds
 
 class ViewController: UIViewController {
 
@@ -18,15 +24,29 @@ class ViewController: UIViewController {
     var alertController = UIAlertController()
     var toDoList: Results<ToDoItem> {
         get {
-            return realm!.objects(ToDoItem.self).sorted(byProperty: "currentDate", ascending: false)
+            return realm!.objects(ToDoItem.self).sorted(byKeyPath: "currentDate", ascending: false)
         }
     }
     
     let realm = try? Realm()
     let dateFormatter = DateFormatter()
+    lazy var adBannerView: GADBannerView = {
+        let adBannerView = GADBannerView(adSize: kGADAdSizeSmartBannerPortrait)
+        adBannerView.adUnitID = "ca-app-pub-2485725965681105/3912689477"
+        adBannerView.delegate = self
+        adBannerView.rootViewController = self
+        
+        return adBannerView
+    }()
+    
+    var interstitial: GADInterstitial?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        interstitial = createAndLoadInterstitial()
+
+        adBannerView.load(GADRequest())
         self.view.backgroundColor = UIColor.primaryColor()
         dateFormatter.dateFormat = "dd/MM/YY, h:mm a"
         setupTableView()
@@ -41,6 +61,65 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+}
+
+//MARK:- Interstitial Adds 
+
+extension ViewController: GADInterstitialDelegate {
+    func createAndLoadInterstitial() -> GADInterstitial? {
+        interstitial = GADInterstitial(adUnitID: "ca-app-pub-2485725965681105/7226082678")
+        
+        guard let interstitial = interstitial else {
+            return nil
+        }
+        
+        let request = GADRequest()
+        // Remove the following line before you upload the app
+//        request.testDevices = [ kGADSimulatorID ]
+        interstitial.load(request)
+        interstitial.delegate = self
+        
+        return interstitial
+    }
+    
+    func interstitialDidReceiveAd(_ ad: GADInterstitial) {
+        print("Interstitial loaded successfully")
+        ad.present(fromRootViewController: self)
+    }
+    
+    func interstitialDidFail(toPresentScreen ad: GADInterstitial) {
+        print("Fail to receive interstitial")
+    }
+}
+
+//MARK:- Banner Adds 
+
+extension ViewController: GADBannerViewDelegate {
+    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("Banner loaded successfully")
+        
+        // Reposition the banner ad to create a slide down effect
+        let translateTransform = CGAffineTransform(translationX: 0, y: -bannerView.bounds.size.height)
+        bannerView.transform = translateTransform
+        
+        UIView.animate(withDuration: 0.5) {
+            bannerView.transform = CGAffineTransform.identity
+        }
+    }
+    
+    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
+        print("Fail to receive ads")
+        print(error)
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return adBannerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        return adBannerView.frame.height
     }
 }
 
